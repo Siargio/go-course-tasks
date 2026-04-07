@@ -28,6 +28,13 @@ func main() {
 
 	// TODO: объяви переменную firstRuneLetter типа rune со значением 'А' (кириллическая А)
 
+	name := "Аня"
+	age := 22
+	var balance float64 = 1500.50
+	isActive := true
+	firstByteLetter := 'A'
+	firstRuneLetter := 'А'
+
 	// Эти строки выводят результат - не меняй их
 	fmt.Printf("Пользователь: %s, возраст: %d\n", name, age)
 	fmt.Printf("Баланс: %.2f рублей\n", balance)

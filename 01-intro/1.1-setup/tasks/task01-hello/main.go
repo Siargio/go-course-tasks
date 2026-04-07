@@ -18,8 +18,14 @@
 
 package main
 
+import "fmt"
+
 func main() {
 	// TODO: напиши здесь одну строку кода, которая напечатает: Hello, Go!
 	// Подсказка: используй функцию fmt.Println()
 	// Не забудь импортировать пакет "fmt" в начале файла (после строки package main)
+
+	hello := "Hello, Go!"
+
+	fmt.Println(hello)
 }

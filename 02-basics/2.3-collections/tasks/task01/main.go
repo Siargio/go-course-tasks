@@ -24,11 +24,14 @@ func main() {
 	// TODO: создай срез целых чисел с начальной длиной 0 и вместимостью 0
 	// Подсказка: var s []int  или  s := make([]int, 0)
 
+	var s []int
+
 	for i := 1; i <= 20; i++ {
 		// TODO: добавь i в срез через append
 		// TODO: выведи строку вида: append(i): len=X, cap=Y
-		_ = i // удали эту строку когда добавишь код
-	}
 
-	_ = fmt.Println // убери эту строку когда начнёшь использовать fmt
+		s = append(s, i)
+
+		fmt.Printf("append(%d): len = %d, cap = %d\n", i, len(s), cap(s))
+	}
 }

@@ -35,7 +35,23 @@ func main() {
 
 	// TODO: вызови fetchData(ctx) и обработай результат
 
-	_ = context.Background() // убери когда начнёшь использовать context
-	_ = fmt.Println          // убери когда начнёшь использовать fmt
-	_ = time.Second          // убери когда начнёшь использовать time
+	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	defer cancel()
+
+	result, err := fetchData(ctx)
+
+	if err != nil {
+		fmt.Println("Запрос не успел:", err)
+	} else {
+		fmt.Println(result)
+	}
+}
+
+func fetchData(ctx context.Context) (string, error) {
+	select {
+	case <-time.After(3 * time.Second):
+		return "данные получены", nil
+	case <-ctx.Done():
+		return "", ctx.Err()
+	}
 }

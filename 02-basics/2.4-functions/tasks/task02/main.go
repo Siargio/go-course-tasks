@@ -29,5 +29,23 @@ import "fmt"
 func main() {
 	// TODO: создай два независимых счётчика и проверь их работу
 
-	fmt.Println("Допиши код!")
+	counterFits := makeCounter(5)
+	fmt.Println(counterFits())
+	fmt.Println(counterFits())
+	fmt.Println(counterFits())
+
+	counterSecond := makeCounter(100)
+	fmt.Println(counterSecond())
+	fmt.Println(counterSecond())
+	fmt.Println(counterFits())
+}
+
+func makeCounter(start int) func() int {
+	current := start
+
+	return func() int {
+		value := current
+		current++
+		return value
+	}
 }

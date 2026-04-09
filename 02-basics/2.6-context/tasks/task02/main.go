@@ -35,7 +35,22 @@ import (
 
 func main() {
 	middleware(handler)
+}
 
-	_ = context.Background() // убери когда начнёшь использовать
-	_ = fmt.Println          // убери когда начнёшь использовать
+type contextKey string
+
+const requestIDKey contextKey = "request-id"
+
+func middleware(next func(ctx context.Context)) {
+	ctx := context.WithValue(context.Background(), requestIDKey, "req-42")
+
+	next(ctx)
+}
+
+func handler(ctx context.Context) {
+	if id, ok := ctx.Value(requestIDKey).(string); ok {
+		fmt.Println("Обрабатываем запрос:", id)
+	} else {
+		fmt.Println("Предупреждение: id не найден")
+	}
 }

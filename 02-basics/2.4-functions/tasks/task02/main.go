@@ -41,11 +41,15 @@ func main() {
 }
 
 func makeCounter(start int) func() int {
+	// текущее значение счетчика
 	current := start
 
 	return func() int {
+		// запоминаю текущее значение
 		value := current
+		// увеличиваю для следующего вызова
 		current++
+		// вызываю предыдущее значение
 		return value
 	}
 }

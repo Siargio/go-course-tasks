@@ -29,15 +29,15 @@ import "fmt"
 func main() {
 	// TODO: создай два независимых счётчика и проверь их работу
 
-	counterFits := makeCounter(5)
-	fmt.Println(counterFits())
-	fmt.Println(counterFits())
-	fmt.Println(counterFits())
+	counterFirst := makeCounter(5)
+	fmt.Println(counterFirst())
+	fmt.Println(counterFirst())
+	fmt.Println(counterFirst())
 
 	counterSecond := makeCounter(100)
 	fmt.Println(counterSecond())
 	fmt.Println(counterSecond())
-	fmt.Println(counterFits())
+	fmt.Println(counterFirst())
 }
 
 func makeCounter(start int) func() int {

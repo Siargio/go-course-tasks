@@ -17,6 +17,26 @@ import "fmt"
 // TODO: добавь метод Status() string с получателем-значением
 //       возвращает "running" если Running == true, иначе "stopped"
 
+type Timer struct {
+	Seconds int
+	Running bool
+}
+
+func (t *Timer) Start() {
+	t.Running = true
+}
+
+func (t *Timer) Stop() {
+	t.Running = false
+}
+
+func (t Timer) Status() string {
+	if t.Running == true {
+		return "running"
+	}
+	return "stopped"
+}
+
 func main() {
 	t := &Timer{}
 	t.Start()

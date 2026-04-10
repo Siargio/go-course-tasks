@@ -13,10 +13,30 @@ import "fmt"
 
 // TODO: объяви структуру Shipment с полями Package (Package), Destination (Destination)
 
+type Package struct {
+	ID     string
+	Weight int
+}
+
+type Destination struct {
+	City string
+	Zip  string
+}
+
+type Shipment struct {
+	Package     Package
+	Destination Destination
+}
+
 func main() {
 	// TODO: создай значение Shipment:
 	// Package: {ID: "PKG-001", Weight: 5}
 	// Destination: {City: "Moscow", Zip: "101000"}
+
+	s := Shipment{
+		Package:     Package{ID: "PKG-001", Weight: 5},
+		Destination: Destination{City: "Moscow", Zip: "101000"},
+	}
 
 	fmt.Printf("Package: %s, City: %s\n", s.Package.ID, s.Destination.City)
 }

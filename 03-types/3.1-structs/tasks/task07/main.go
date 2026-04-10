@@ -17,8 +17,37 @@ import "fmt"
 //       EnrollmentID (string), Status (string)
 //       Student Student, Course Course
 
+type ContactInfo struct {
+	Phone string
+	Email string
+}
+
+type Course struct {
+	ID    string
+	Title string
+}
+
+type Student struct {
+	Name string
+	ContactInfo
+}
+
+type CourseEnrollment struct {
+	EnrollmentID string
+	Status       string
+	Student      Student
+	Course       Course
+}
+
 func main() {
 	// TODO: создай значение CourseEnrollment с осмысленными данными
+
+	e := CourseEnrollment{
+		EnrollmentID: "12300",
+		Student:      Student{Name: "Boris"},
+		Course:       Course{Title: "GO"},
+		Status:       "student",
+	}
 
 	fmt.Printf("Enrollment %s: %s enrolled in %s [%s]\n",
 		e.EnrollmentID, e.Student.Name, e.Course.Title, e.Status)

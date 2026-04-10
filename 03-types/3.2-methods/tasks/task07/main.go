@@ -19,6 +19,32 @@ import "fmt"
 // TODO: добавь метод Info() string с получателем-значением
 //       возвращает "<Owner>: <Balance>"
 
+type BankAccount struct {
+	Owner   string
+	Balance int
+}
+
+func (b *BankAccount) Deposit(amount int) {
+	b.Balance += amount
+}
+
+func (b *BankAccount) Withdraw(amount int) bool {
+	if b.Balance < amount {
+		return false
+	}
+	b.Balance -= amount
+	return true
+}
+
+func (b BankAccount) Info() string {
+	// aa := b.Owner
+	// bb := b.Balance
+	// ss := string(bb)
+	// result := aa + ":" + ss
+	// return result
+	return fmt.Sprintf("%s: %d", b.Owner, b.Balance)
+}
+
 func main() {
 	acc := &BankAccount{Owner: "Bob", Balance: 0}
 	acc.Deposit(250)

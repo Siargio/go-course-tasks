@@ -14,5 +14,10 @@ func main() {
 	score := 42
 	// TODO: вызови resetScore передав &score
 
+	resetScore(&score)
 	fmt.Println("score:", score)
+}
+
+func resetScore(score *int) {
+	*score = 0
 }

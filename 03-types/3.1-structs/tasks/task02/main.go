@@ -12,8 +12,16 @@ import "fmt"
 
 // TODO: объяви структуру AppConfig с полями Host (string), Port (int), Debug (bool)
 
+type AppConfig struct {
+	Host  string
+	Port  int
+	Debug bool
+}
+
 func main() {
 	// TODO: объяви var cfg AppConfig без инициализации
+
+	var cfg AppConfig
 
 	fmt.Println(cfg)
 	fmt.Println("Host:", cfg.Host)

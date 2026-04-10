@@ -19,9 +19,22 @@ import "fmt"
 
 // TODO: добавь метод Deposit(amount int) с получателем-указателем
 
+type Wallet struct {
+	Balance int
+}
+
+func (w *Wallet) Deposit(amount int) {
+	w.Balance += amount
+}
+
 func main() {
 	// TODO: создай Wallet с Balance: 0
 	// TODO: вызови Deposit(100) и Deposit(200)
+
+	w := Wallet{}
+
+	w.Deposit(100)
+	w.Deposit(200)
 
 	fmt.Println("Balance:", w.Balance)
 }

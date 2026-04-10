@@ -16,6 +16,18 @@ import "fmt"
 // TODO: добавь метод Deposit(amount int) с получателем-указателем
 //       (увеличивает Balance на amount)
 
+type Wallet struct {
+	Balance int
+}
+
+func (w Wallet) DepositCopy(amount int) {
+	w.Balance = amount
+}
+
+func (w *Wallet) Deposit(amount int) {
+	w.Balance = amount
+}
+
 func main() {
 	w := Wallet{Balance: 0}
 

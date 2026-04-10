@@ -18,9 +18,27 @@ import "fmt"
 
 // TODO: объяви структуру Employee с полями Name и Address
 
+type Address struct {
+	City   string
+	Street string
+}
+
+type Employee struct {
+	Name string
+	Address
+}
+
 func main() {
 	// TODO: создай значение Employee:
 	// Name: "Mira", Address: {City: "Kazan", Street: "Baumana"}
+
+	e := Employee{
+		Name: "Mira",
+		Address: Address{
+			City:   "Kazan",
+			Street: "Bauman",
+		},
+	}
 
 	fmt.Printf("%s: %s, %s\n", e.Name, e.Address.City, e.Address.Street)
 }

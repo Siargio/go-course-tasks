@@ -14,6 +14,18 @@ import "fmt"
 //       если u == nil — выведи "user is nil"
 //       иначе — выведи u.Name
 
+type User struct {
+	Name string
+}
+
+func printUserName(u *User) {
+	if u == nil {
+		fmt.Println("user is nil")
+		return
+	}
+	fmt.Println(u.Name)
+}
+
 func main() {
 	printUserName(nil)
 	printUserName(&User{Name: "Alice"})

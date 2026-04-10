@@ -19,8 +19,22 @@ import "fmt"
 
 // TODO: добавь метод Summary() string с получателем-значением
 
+type Book struct {
+	Title string
+	Pages int
+}
+
+func (b Book) Summary() string {
+	return fmt.Sprintf("%s (%d pages)", b.Title, b.Pages)
+}
+
 func main() {
 	// TODO: создай значение Book с Title: "Go in Action", Pages: 350
+
+	b := Book{
+		Title: "Go in Action",
+		Pages: 350,
+	}
 
 	fmt.Println(b.Summary())
 }

@@ -10,6 +10,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 )
@@ -18,6 +19,14 @@ import (
 //       если s == "", верни 0 и errors.New("empty id")
 //       иначе используй strconv.Atoi(s) и верни результат
 
+func parseID(s string) (int, error) {
+	if s == "" {
+		return 0, errors.New("empty id")
+	} else {
+		return strconv.Atoi(s)
+	}
+}
+
 func main() {
 	ids := []string{"1", "", "2", "", "3"}
 
@@ -25,8 +34,17 @@ func main() {
 		// TODO: вызови parseID(id)
 		//       если ошибка — выведи "skip" и продолжи
 		//       если успех — выведи "ok: <значение>"
-		_ = id
-		_ = strconv.Atoi // подсказка: используй в parseID
-		fmt.Println("TODO: implement me")
+		result, err := parseID(id)
+
+		if err != nil {
+			fmt.Println("skip")
+			continue
+		}
+
+		fmt.Println("ok:", result)
+
+		// _ = id
+		// _ = strconv.Atoi // подсказка: используй в parseID
+		// fmt.Println("TODO: implement me")
 	}
 }

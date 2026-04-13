@@ -21,7 +21,36 @@ import "fmt"
 // TODO: напиши функцию runCycle(m Machine)
 //       вызывает m.Start() и m.Stop()
 
+type Starter interface {
+	Start()
+}
+
+type Stopper interface {
+	Stop()
+}
+
+type Machine interface {
+	Starter
+	Stopper
+}
+
+type Engine struct{}
+
+func (e Engine) Start() {
+	fmt.Println("engine started")
+}
+
+func (e Engine) Stop() {
+	fmt.Println("engine stopped")
+}
+
+func runCycle(m Machine) {
+	m.Start()
+	m.Stop()
+}
+
 func main() {
 	// TODO: вызови runCycle с Engine{}
-	fmt.Println("TODO: implement me")
+
+	runCycle(Engine{})
 }

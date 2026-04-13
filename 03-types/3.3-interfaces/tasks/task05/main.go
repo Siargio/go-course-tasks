@@ -6,12 +6,24 @@
 
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // TODO: напиши функцию printStringLength(x any)
 //       используй безопасный type assertion (двузначная форма)
 //       если x — string, выводи "length: <len>"
 //       иначе выводи "not a string"
+
+func printStringLength(x any) {
+	s, ok := x.(string)
+
+	if ok {
+		fmt.Println("length:", len(s))
+	} else {
+		fmt.Println("not a string")
+	}
+}
 
 func main() {
 	printStringLength("hello")

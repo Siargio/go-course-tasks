@@ -18,7 +18,31 @@ import "fmt"
 
 // TODO: напиши функцию printGreeting(g Greeter), которая печатает g.Greet()
 
+type Greeter interface {
+	Greet() string
+}
+
+type User struct {
+	Name string
+}
+
+func (u User) Greet() string {
+	return "Hello, " + u.Name
+}
+
+type Guest struct{}
+
+func (g Guest) Greet() string {
+	return "Welcome, stranger"
+}
+
+func printGreeting(g Greeter) string {
+	return g.Greet()
+}
+
 func main() {
 	// TODO: вызови printGreeting для User{Name: "Anna"} и Guest{}
-	fmt.Println("TODO: implement me")
+
+	fmt.Println(printGreeting(User{Name: "Anna"}))
+	fmt.Println(printGreeting(Guest{}))
 }

@@ -15,7 +15,17 @@ import "fmt"
 // Проверка через компилятор: раскомментируй строку ниже после реализации
 // var _ Runner = Athlete{}
 
+type Runner interface {
+	Run() string
+}
+
+type Athlete struct{}
+
+func (a Athlete) Run() string {
+	return "Running fast"
+}
+
 func main() {
 	// TODO: создай Athlete и вызови Run() через интерфейс Runner
-	fmt.Println("TODO: implement me")
+	fmt.Println(Athlete{}.Run())
 }

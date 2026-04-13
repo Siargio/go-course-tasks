@@ -21,6 +21,22 @@ import (
 //       если email == "", верни InputError{Field: "email", Reason: "empty value"}
 //       иначе верни nil
 
+type InputError struct {
+	Field  string
+	Reason string
+}
+
+func (i InputError) Error() string {
+	return "validation error: field" + i.Field + ": " + i.Reason
+}
+
+func validateEmail(email string) error {
+	if email == "" {
+		return InputError{Field: "email", Reason: "empty value"}
+	}
+	return nil
+}
+
 func main() {
 	err := validateEmail("")
 	if err != nil {

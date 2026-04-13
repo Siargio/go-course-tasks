@@ -21,8 +21,35 @@ import "fmt"
 // TODO: напиши функцию checkout(p PaymentProcessor, amount int)
 //       вызывает p.Pay(amount), при ошибке выводит её
 
+type PaymentProcessor interface {
+	Pay(amount int) error
+}
+
+type CardProcessor struct{}
+
+func (c CardProcessor) Pay(amount int) error {
+	fmt.Printf("paid %d by card\n", amount)
+	return nil
+}
+
+type CashProcessor struct{}
+
+func (c CashProcessor) Pay(amount int) error {
+	fmt.Printf("paid %d by cash\n", amount)
+	return nil
+}
+
+func checkout(p PaymentProcessor, amount int) {
+	err := p.Pay(amount)
+	if err != nil {
+		fmt.Println("error:", err)
+	}
+}
+
 func main() {
 	// TODO: вызови checkout с CardProcessor{} и amount 100
 	// TODO: вызови checkout с CashProcessor{} и amount 50
-	fmt.Println("TODO: implement me")
+
+	checkout(CardProcessor{}, 100)
+	checkout(CashProcessor{}, 50)
 }

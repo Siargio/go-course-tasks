@@ -26,8 +26,34 @@ import "fmt"
 //       "validating order"
 //       "order done"
 
+type Logger interface {
+	Log(message string)
+}
+
+type ConsoleLogger struct{}
+
+func (c ConsoleLogger) Log(message string) {
+	fmt.Println(message)
+}
+
+type PrefixLogger struct {
+	Prefix string
+}
+
+func (p PrefixLogger) Log(message string) {
+	fmt.Println(p.Prefix, message)
+}
+
+func processOrder(logger Logger, id string) {
+	logger.Log("processing order " + id)
+	logger.Log("validating order")
+	logger.Log("order done")
+}
+
 func main() {
 	// TODO: вызови processOrder с ConsoleLogger{} и id "order-1"
 	// TODO: вызови processOrder с PrefixLogger{Prefix: "[INFO]"} и id "order-1"
-	fmt.Println("TODO: implement me")
+
+	processOrder(ConsoleLogger{}, "order-1")
+	processOrder(PrefixLogger{Prefix: "[INFO]"}, "order-1")
 }

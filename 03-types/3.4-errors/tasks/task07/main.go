@@ -7,7 +7,10 @@
 
 package main
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
 // TODO: напиши функцию validateName(name string) error
 //       если name == "", верни ошибку "name is empty"
@@ -19,6 +22,36 @@ import "fmt"
 //       вызывает validateName и validateAge
 //       оборачивает каждую ошибку через fmt.Errorf: "register: %w"
 //       если всё ок — выводи "registered: <name> (<age>)" и возвращай nil
+
+func validateName(name string) error {
+	if name == "" {
+		return errors.New("name is empty")
+	}
+	return nil
+}
+
+func validateAge(age int) error {
+	if age < 18 {
+		return errors.New("age must be >= 18")
+	}
+	return nil
+}
+
+func register(name string, age int) error {
+	nameError := validateName(name)
+	ageError := validateAge(age)
+	if nameError != nil {
+		return fmt.Errorf("register: %w", nameError)
+	}
+
+	if ageError != nil {
+		return fmt.Errorf("register: %w", ageError)
+
+	}
+
+	fmt.Printf("registered %s (%d)\n", name, age)
+	return nil
+}
 
 func main() {
 	scenarios := []struct {

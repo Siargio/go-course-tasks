@@ -19,6 +19,27 @@ import "fmt"
 // TODO: напиши функцию Contains[T comparable](items []T, target T) bool
 //       возвращает true если target есть в items
 
+type Store[T any] struct {
+	items []T
+}
+
+func (s *Store[T]) Add(item T) {
+	s.items = append(s.items, item)
+}
+
+func (s Store[T]) All() []T {
+	return s.items
+}
+
+func Contains[T comparable](items []T, target T) bool {
+	for _, v := range items {
+		if v == target {
+			return true
+		}
+	}
+	return false
+}
+
 func main() {
 	// TODO: создай Store[string], добавь "go", "rust", "python"
 	//       выведи "strings:", ss.All()
@@ -31,5 +52,21 @@ func main() {
 	//       Contains(ss.All(), "java") → "contains \"java\": false"
 	//       Contains(si.All(), 2)     → "contains 2: true"
 	//       Contains(si.All(), 5)     → "contains 5: false"
-	fmt.Println("TODO: implement me")
+
+	var storeString Store[string]
+	storeString.Add("go")
+	storeString.Add("rust")
+	storeString.Add("python")
+	fmt.Println("strings:", storeString.All())
+
+	var storeInt Store[int]
+	storeInt.Add(1)
+	storeInt.Add(2)
+	storeInt.Add(3)
+	fmt.Println("ints:", storeInt.All())
+
+	fmt.Println("contains go:", Contains(storeString.All(), "go"))
+	fmt.Println("contains java:", Contains(storeString.All(), "java"))
+	fmt.Println("contains 2:", Contains(storeInt.All(), 2))
+	fmt.Println("contains 5:", Contains(storeInt.All(), 5))
 }

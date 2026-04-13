@@ -6,12 +6,23 @@
 
 package main
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
 // TODO: напиши функцию createUser(name string) error
 //       если name == "", верни errors.New("name is empty")
 //       иначе выведи "user created: <name>" и верни nil
 //       (не забудь импортировать "errors")
+
+func createUser(name string) error {
+	if name == "" {
+		return errors.New("name is empty")
+	}
+	fmt.Println("user created:", name)
+	return nil
+}
 
 func main() {
 	if err := createUser("Alice"); err != nil {

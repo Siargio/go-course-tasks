@@ -25,7 +25,11 @@ func (w Wallet) DepositCopy(amount int) {
 }
 
 func (w *Wallet) Deposit(amount int) {
-	w.Balance = amount
+	w.Balance += amount
+}
+
+func (w *Wallet) Withdraw(amount int) {
+	w.Balance -= amount
 }
 
 func main() {
@@ -35,5 +39,11 @@ func main() {
 	fmt.Println("after copy deposit:", w.Balance)
 
 	w.Deposit(100)
+	fmt.Println("after pointer deposit:", w.Balance)
+
+	w.Withdraw(50)
+	fmt.Println("after pointer withdrawal:", w.Balance)
+
+	w.Deposit(5)
 	fmt.Println("after pointer deposit:", w.Balance)
 }

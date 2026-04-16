@@ -35,22 +35,49 @@ import (
 )
 
 // TODO: напиши структуру Stack
+type Stack struct {
+	items []int
+}
 
 // TODO: напиши метод Push(val int)
+func (s *Stack) Push(val int) {
+	s.items = append(s.items, val)
+}
 
 // TODO: напиши метод All() iter.Seq[int]
+func (s *Stack) All() iter.Seq[int] {
+	return func(yield func(int) bool) {
+		for i := len(s.items) - 1; i >= 0; i-- {
+			if !yield(s.items[i]) {
+				return
+			}
+		}
+	}
+}
+
 // Подсказка: перебирай items с конца (от len-1 до 0)
 // Не забудь проверять возвращаемое значение yield и прерваться если false
 
 func main() {
 	// TODO: создай стек, добавь элементы 1..5
+	stack := &Stack{}
+	for i := 1; i <= 5; i++ {
+		stack.Push(i)
+	}
 
 	fmt.Println("Все элементы стека:")
 	// TODO: for range stack.All() { ... }
+	for val := range stack.All() {
+		fmt.Println(val)
+	}
 
 	fmt.Println("\nДо элемента 3:")
 	// TODO: for range stack.All() { if v == 3 { break } ... }
-
-	_ = iter.Seq[int](nil) // убери когда начнёшь использовать
-	_ = fmt.Println
+	//stack.All()
+	for val := range stack.All() {
+		if val == 3 {
+			break
+		}
+		fmt.Println(val)
+	}
 }

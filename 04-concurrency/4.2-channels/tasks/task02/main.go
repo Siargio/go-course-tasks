@@ -31,11 +31,69 @@ import (
 // TODO: напиши функцию merge(ch1, ch2 <-chan int) <-chan int
 // Подсказка: используй WaitGroup и отдельную горутину для закрытия merged
 
+func evenNumbers() <-chan int {
+	ch := make(chan int)
+	go func() {
+		for i := 2; i <= 10; i += 2 {
+			ch <- i
+		}
+		close(ch)
+	}()
+	return ch
+}
+
+func oddNumbers() <-chan int {
+	ch := make(chan int)
+	go func() {
+		for i := 1; i <= 9; i += 2 {
+			ch <- i
+		}
+		close(ch)
+	}()
+	return ch
+}
+
+func merge(ch1, ch2 <-chan int) <-chan int {
+	merged := make(chan int)
+	var wg sync.WaitGroup
+
+	// for c1 := range ch1 {
+	// 	fmt.Printf("c1 %d \n", c1)
+	// }
+
+	// for c2 := range ch2 {
+	// 	fmt.Printf("c2 %d \n", c2)
+	// }
+
+	read := func(ch <-chan int) {
+		defer wg.Done()
+		for val := range ch {
+			merged <- val
+		}
+	}
+
+	wg.Add(2)
+	go read(ch1)
+	go read(ch2)
+
+	go func() {
+		wg.Wait()
+		close(merged)
+	}()
+
+	return merged
+}
+
 func main() {
 	// TODO: создай два канала через генераторы
-	// TODO: слей их через merge
-	// TODO: выведи все числа в одну строку
+	ch1 := evenNumbers()
+	ch2 := oddNumbers()
 
-	_ = fmt.Print
-	_ = sync.WaitGroup{}
+	// TODO: слей их через merge
+	result := merge(ch1, ch2)
+
+	// TODO: выведи все числа в одну строку
+	for r := range result {
+		fmt.Printf("%d ", r)
+	}
 }

@@ -57,14 +57,6 @@ func merge(ch1, ch2 <-chan int) <-chan int {
 	merged := make(chan int)
 	var wg sync.WaitGroup
 
-	// for c1 := range ch1 {
-	// 	fmt.Printf("c1 %d \n", c1)
-	// }
-
-	// for c2 := range ch2 {
-	// 	fmt.Printf("c2 %d \n", c2)
-	// }
-
 	read := func(ch <-chan int) {
 		defer wg.Done()
 		for val := range ch {

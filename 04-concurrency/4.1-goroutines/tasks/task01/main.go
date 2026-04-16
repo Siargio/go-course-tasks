@@ -28,6 +28,7 @@ func main() {
 
 	for i := 1; i <= 10; i++ {
 		// TODO: увеличь счётчик wg на 1
+		wg.Add(1)
 
 		// TODO: запусти горутину, передав i как параметр
 		// Внутри горутины:
@@ -36,13 +37,16 @@ func main() {
 		//   - подожди это время через time.Sleep
 		//   - выведи результат
 
-		_ = i // удали эту строку когда добавишь код
+		go func(i int) {
+			defer wg.Done()
+			sleepTime := time.Duration(rand.Intn(151)+50) * time.Millisecond
+			time.Sleep(sleepTime)
+
+			fmt.Printf("Задача %d выполнена за %dms\n", i, sleepTime.Milliseconds())
+		}(i)
 	}
 
 	// TODO: дождись всех горутин через wg.Wait()
-
-	_ = fmt.Println // убери когда начнёшь использовать
-	_ = rand.Intn   // убери когда начнёшь использовать
-	_ = time.Sleep  // убери когда начнёшь использовать
-	_ = wg          // убери когда начнёшь использовать
+	wg.Wait()
+	fmt.Println("Все 10 задач выполнены!")
 }

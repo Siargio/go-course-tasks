@@ -27,16 +27,54 @@ import (
 
 // TODO: напиши структуру SafeCounter
 // type SafeCounter struct { ... }
+type SafeCounter struct {
+	mu    sync.Mutex
+	value int
+}
 
 // TODO: напиши метод Increment()
+func (s *SafeCounter) Increment() {
+	//блочим
+	s.mu.Lock()
+	// освобождаем
+	defer s.mu.Unlock()
+	//только с одного потока пишем
+	s.value++
+}
 
 // TODO: напиши метод Value() int
+func (s *SafeCounter) Value() int {
+	//блочим
+	s.mu.Lock()
+	//освобождаем
+	defer s.mu.Unlock()
+	//только с одного потока читам
+	return s.value
+}
 
 func main() {
 	// TODO: создай SafeCounter и запусти 1000 горутин
 	// Каждая горутина вызывает counter.Increment()
 	// После завершения всех горутин выведи counter.Value()
 
-	_ = fmt.Println
-	_ = sync.Mutex{}
+	// создал структуру
+	s := &SafeCounter{}
+	// создал группу для отслеживания
+	wg := &sync.WaitGroup{}
+
+	// счетчик до тысячи
+	for i := 0; i < 1000; i++ {
+		//счетчик, одна горутина
+		wg.Add(1)
+		//создаем горутинку
+		go func() {
+			// не забываем уменьшит счетчик
+			defer wg.Done()
+			//вызываем наш метод +1
+			s.Increment()
+		}()
+	}
+	// ждем пока счетчик не станет 0
+	wg.Wait()
+	fmt.Println("Финальный счётчик:", s.Value())
 }

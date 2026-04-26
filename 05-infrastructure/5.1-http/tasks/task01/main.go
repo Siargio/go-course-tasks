@@ -16,11 +16,21 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 )
 
+func handlerHealth(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+	_, err := w.Write([]byte("OK"))
+	if err != nil {
+		fmt.Println("fail to write HTTP response:", err)
+	}
+}
+
 func main() {
+	// компонент, который выбирает нужный handler по маршруту.
 	mux := http.NewServeMux()
 
 	// TODO: зарегистрируй обработчик для "GET /health"
@@ -30,6 +40,10 @@ func main() {
 	// Подсказка: mux.HandleFunc("GET /health", func(w http.ResponseWriter, r *http.Request) { ... })
 
 	// TODO: запусти сервер на :8080 с помощью http.ListenAndServe(":8080", mux)
+	mux.HandleFunc("GET /health", handlerHealth)
+
 	log.Println("server started on :8080")
-	_ = mux
+	if err := http.ListenAndServe(":8080", mux); err != nil {
+		log.Fatal(err)
+	}
 }

@@ -37,8 +37,23 @@ func main() {
 
 	// TODO: запусти сервер через srv.ListenAndServe()
 	// и обработай ошибку
+	srv := &http.Server{
+		Addr:              ":8080",
+		Handler:           mux,
+		ReadHeaderTimeout: 5 * time.Second,
+		ReadTimeout:       10 * time.Second,
+		WriteTimeout:      10 * time.Second,
+		IdleTimeout:       60 * time.Second,
+	}
 
-	_ = time.Second // убери после реализации
+	//endpoint
+	http.HandleFunc("GET /health", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		_, _ = w.Write([]byte("ok"))
+	})
 
 	log.Println("server started on :8080")
+	if err := srv.ListenAndServe(); err != nil {
+		log.Fatalf("listen: %v", err)
+	}
 }

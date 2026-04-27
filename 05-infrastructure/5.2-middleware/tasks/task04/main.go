@@ -54,6 +54,10 @@ func writeJSON(w http.ResponseWriter, status int, payload any) {
 	_ = json.NewEncoder(w).Encode(payload)
 }
 
+func writeError(w http.ResponseWriter, status int, msg string) {
+	writeJSON(w, status, map[string]string{"error": msg})
+}
+
 func extractBearerToken(header string) (string, error) {
 	if header == "" {
 		return "", errors.New("authorization header is empty")
@@ -77,18 +81,36 @@ func AuthMiddleware(verifier TokenVerifier) func(http.Handler) http.Handler {
 	// TODO: implement
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			next.ServeHTTP(w, r)
+			raw := r.Header.Get("Authorization")
+			token, err := extractBearerToken(raw)
+
+			if err != nil {
+				writeError(w, http.StatusUnauthorized, err.Error())
+				return
+			}
+
+			claims, err := verifier.Verify(token)
+			if err != nil {
+				writeError(w, http.StatusUnauthorized, "invalid toke")
+				return
+			}
+
+			ctx := context.WithValue(r.Context(), claimsKey, claims)
+
+			next.ServeHTTP(w, r.WithContext(ctx))
 		})
 	}
 }
 
 func meHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO: достань claims из context:
-	//   claims, ok := r.Context().Value(claimsKey).(Claims)
-	// Если ok — верни JSON с UserID и Role
-	// Иначе — верни 401
-	_ = context.Background // подсказка: используй r.Context()
-	fmt.Fprintln(w, "TODO: implement me")
+	claims, ok := r.Context().Value(claimsKey).(Claims)
+
+	if !ok {
+		writeError(w, http.StatusUnauthorized, "")
+	} else {
+		writeJSON(w, http.StatusOK, map[string]string{"user_id": claims.UserID, "role": claims.Role})
+	}
 }
 
 func main() {

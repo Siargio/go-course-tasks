@@ -36,7 +36,11 @@ type JWTVerifier struct{}
 
 func (v *JWTVerifier) Verify(token string) (Claims, error) {
 	// TODO: implement
-	return Claims{}, nil
+	if token == "jwt-valid" {
+		return Claims{UserID: "user-jwt", Role: "user"}, nil
+	}
+
+	return Claims{}, errors.New("jwt: unknown token")
 }
 
 // TODO: реализуй PasetoVerifier (мок, без реальной криптографии)
@@ -47,7 +51,10 @@ type PasetoVerifier struct{}
 
 func (v *PasetoVerifier) Verify(token string) (Claims, error) {
 	// TODO: implement
-	return Claims{}, nil
+	if token == "paseto-valid" {
+		return Claims{UserID: "user-paseto", Role: "admin"}, nil
+	}
+	return Claims{}, errors.New("paseto: unknown token")
 }
 
 func runVerification(name string, verifier TokenVerifier, tokens []string) {

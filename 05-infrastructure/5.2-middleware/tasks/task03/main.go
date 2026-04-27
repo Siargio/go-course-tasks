@@ -25,17 +25,28 @@ var (
 
 // TODO: реализуй функцию extractBearerToken(header string) (string, error)
 // Логика:
-//   1. Если header == "" — вернуть ErrEmptyHeader
-//   2. Если не начинается с "Bearer " — вернуть ErrInvalidFormat
-//   3. Достать токен: часть после "Bearer "
-//   4. Если токен == "" — вернуть ErrEmptyToken
-//   5. Вернуть токен и nil
+//  1. Если header == "" — вернуть ErrEmptyHeader
+//  2. Если не начинается с "Bearer " — вернуть ErrInvalidFormat
+//  3. Достать токен: часть после "Bearer "
+//  4. Если токен == "" — вернуть ErrEmptyToken
+//  5. Вернуть токен и nil
+//
 // Подсказка: используй strings.CutPrefix или strings.HasPrefix
-
 func extractBearerToken(header string) (string, error) {
-	// TODO: implement
-	_ = strings.HasPrefix // подсказка
-	return "", nil
+	if header == "" {
+		return "", ErrEmptyHeader
+	}
+
+	token, found := strings.CutPrefix(header, "Bearer ")
+	if !found {
+		return "", ErrInvalidFormat
+	}
+
+	if token == "" {
+		return "", ErrEmptyToken
+	}
+
+	return token, nil
 }
 
 func main() {
